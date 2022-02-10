@@ -1,2 +1,17 @@
+image:
+  file: .gitpod.Dockerfile
 tasks:
-  - init: yarn install && yarn build && yarn package
+  - name: Google Chrome
+    command: >
+      gp await-port 6080 &&
+      google-chrome --no-first-run --disable-dev-shm-usage --start-maximized --load-extension=/workspace/browser-extension https://github.com/gitpod-io/template-sveltekit
+  - name: Webpack Dev Server
+    init: yarn install && yarn build && yarn package
+    command: yarn watch
+ports:
+  - name: NoVNC
+    port: 6080
+    onOpen: open-preview
+  - name: Webpack Dev Server
+    port: 5900
+    onOpen: ignore
